@@ -14,4 +14,4 @@ async def hello(request):
 
 app = web.Application()
 app.add_routes([web.get('/fib/{num}', hello)])
-
+web.run_app(app)
