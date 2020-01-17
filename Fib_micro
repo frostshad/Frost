@@ -1,0 +1,17 @@
+from aiohttp import web
+
+
+async def hello(request):
+    num=int(request.match_info.get('num'))
+    st='0 '
+    k=0
+    n=1
+    for i in range(num-1):
+        k, n= n, k+n
+        st+=str(k)+' '
+
+    return web.Response(text=st)
+
+app = web.Application()
+app.add_routes([web.get('/fib/{num}', hello)])
+web.run_app(app)
