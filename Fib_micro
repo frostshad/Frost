@@ -1,7 +1,9 @@
 from aiohttp import web
+from datetime import datetime
+import random
 
 
-async def hello(request):
+async def fib(request):
     num=int(request.match_info.get('num'))
     st='0 '
     k=0
@@ -12,6 +14,24 @@ async def hello(request):
 
     return web.Response(text=st)
 
+async def fact(request):
+    num=int(request.match_info.get('num'))
+    fact=1
+    for i in range(num):
+        fact*=i+1
+    fact=str(fact)
+    return web.Response(text=fact)
+
+async def time(request):
+    return web.Response(text=str(datetime.now()))
+
+async def rand(request):
+    seq=['8','800','555','35','35']
+    return web.Response(text=random.choice(seq))
+
 app = web.Application()
-app.add_routes([web.get('/fib/{num}', hello)])
+app.add_routes([web.get('/fib/{num}', fib),
+                web.get('/fact/{num}', fact),
+                web.get('/time', time),
+                web.get('/random', rand)])
 web.run_app(app)
